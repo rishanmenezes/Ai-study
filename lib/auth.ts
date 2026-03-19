@@ -12,8 +12,14 @@ export async function verifyPassword(password: string, hash: string) {
   return bcrypt.compare(password, hash)
 }
 
-export async function signToken(payload: any) {
-  return new SignJWT(payload)
+/** Shape of the data stored in JWTs. */
+export interface TokenPayload {
+  userId: string
+  email: string
+}
+
+export async function signToken(payload: TokenPayload) {
+  return new SignJWT(payload as unknown as Record<string, unknown>)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('7d')

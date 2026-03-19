@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const { query, context } = await req.json()
     if (!query) return NextResponse.json({ error: 'Query is required' }, { status: 400 })
 
-    const response = await chatContext(query, context)
+    const response = await chatContext(query, context, payload.userId as string)
 
     return NextResponse.json({ response })
   } catch (error) {
